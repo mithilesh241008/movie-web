@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FRAME — Cinema, Curated.</title>
+  <meta name="description" content="FRAME is a small curated movie collection. Browse twelve films from Hollywood, Korea, Japan, India and France, search by title, filter by genre, sort by rating and keep a watchlist.">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://image.tmdb.org">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#discover">Skip to the collection</a>
+
+  <header class="site-header" id="top">
+    <div class="shell header-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-word">FRAME</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a class="nav-link" href="#discover">Discover</a>
+        <a class="nav-link" href="#genres">Genres</a>
+        <a class="nav-link" href="#watchlist">
+          Watchlist
+          <span class="nav-count" id="nav-count" hidden>00</span>
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="theme-toggle" type="button" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true"></span>
+          <span class="sr-only" id="theme-toggle-label">Switch to light theme</span>
+        </button>
+        <button class="icon-button nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="burger" aria-hidden="true"></span>
+          <span class="sr-only">Open menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ── Hero / featured film ─────────────────────────────── -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="hero-backdrop" id="hero-backdrop" aria-hidden="true"></div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <div class="shell hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">A curated collection</p>
+          <h1 class="hero-title" id="hero-title">Cinema, <em>curated.</em></h1>
+          <p class="hero-lead">
+            Twelve films worth making an evening for — from Gotham to Seoul, Tokyo to
+            the Telugu-language epics. No endless scroll, no autoplay. Just the shortlist.
+          </p>
+
+          <div class="featured" id="featured">
+            <p class="featured-label">Featured</p>
+            <h2 class="featured-title" id="featured-title">—</h2>
+            <p class="featured-meta" id="featured-meta"></p>
+            <p class="featured-description" id="featured-description"></p>
+            <div class="featured-actions">
+              <button class="button button-primary" id="featured-details" type="button">View details</button>
+              <button class="button button-ghost" id="featured-save" type="button" aria-pressed="false">Add to Watchlist</button>
+            </div>
+          </div>
+        </div>
+
+        <figure class="hero-poster" id="hero-poster-frame">
+          <img id="hero-poster" alt="" width="400" height="600" fetchpriority="high">
+          <figcaption class="poster-fallback" id="hero-poster-fallback" aria-hidden="true"></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ── Discover ─────────────────────────────────────────── -->
+    <section class="section" id="discover" aria-labelledby="discover-heading">
+      <div class="shell">
+        <div class="section-head">
+          <h2 class="section-title" id="discover-heading">Discover</h2>
+          <p class="section-note">Search the collection, narrow it by genre, sort it by rating.</p>
+        </div>
+
+        <div class="controls" id="genres">
+          <div class="control-row">
+            <div class="search-field">
+              <span class="search-icon" aria-hidden="true"></span>
+              <label class="sr-only" for="search-input">Search films by title</label>
+              <input id="search-input" type="search" autocomplete="off" placeholder="Search by movie title...">
+            </div>
+
+            <div class="sort-field">
+              <label for="sort-select">Sort</label>
+              <select id="sort-select">
+                <option value="default">Default order</option>
+                <option value="rating-desc">Rating: high to low</option>
+                <option value="rating-asc">Rating: low to high</option>
+              </select>
+            </div>
+
+            <button class="button button-quiet" id="reset-filters" type="button" hidden>Reset filters</button>
+          </div>
+
+          <div class="genre-rail" role="group" aria-label="Filter by genre">
+            <div class="genre-chips" id="genre-chips"></div>
+          </div>
+        </div>
+
+        <p class="results-line" id="results-line" role="status"></p>
+
+        <div class="movie-grid" id="movie-grid"></div>
+
+        <div class="empty-state" id="discover-empty" hidden>
+          <p class="empty-title">No films match your search.</p>
+          <p class="empty-copy">Try a different title, or widen the genre filter.</p>
+          <button class="button button-primary" id="empty-reset" type="button">Clear filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Watchlist ────────────────────────────────────────── -->
+    <section class="section section-alt" id="watchlist" aria-labelledby="watchlist-heading">
+      <div class="shell">
+        <div class="section-head">
+          <h2 class="section-title" id="watchlist-heading">Watchlist</h2>
+          <p class="section-note" id="watchlist-note"></p>
+        </div>
+
+        <div class="movie-grid" id="watchlist-grid"></div>
+
+        <div class="empty-state" id="watchlist-empty" hidden>
+          <p class="empty-title">Your watchlist is empty.</p>
+          <p class="empty-copy">Save a film while exploring and it will appear here.</p>
+          <a class="button button-primary" href="#discover">Explore movies</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <span class="brand-word">FRAME</span>
+        <p>A curated place for films worth remembering.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#discover">Discover</a>
+        <a href="#genres">Genres</a>
+        <a href="#watchlist">Watchlist</a>
+        <a href="#top">Back to top</a>
+      </nav>
+      <p class="footer-legal">
+        Built for the Coding Ninjas 10X SRM recruitment task. Poster art and ratings via TMDB.
+        <span>&copy; 2026 FRAME</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ── Movie details modal ────────────────────────────────── -->
+  <dialog class="modal" id="movie-modal" aria-labelledby="modal-title">
+    <article class="modal-panel">
+      <div class="modal-banner" id="modal-banner" aria-hidden="true"></div>
+      <button class="modal-close" id="modal-close" type="button">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close details</span>
+      </button>
+
+      <div class="modal-body">
+        <figure class="modal-poster" id="modal-poster-frame">
+          <img id="modal-poster" alt="" width="300" height="450">
+          <figcaption class="poster-fallback" id="modal-poster-fallback" aria-hidden="true"></figcaption>
+        </figure>
+
+        <div class="modal-info">
+          <h2 class="modal-title" id="modal-title">—</h2>
+          <p class="modal-meta" id="modal-meta"></p>
+          <ul class="modal-genres" id="modal-genres"></ul>
+          <p class="modal-description" id="modal-description"></p>
+
+          <dl class="modal-facts" id="modal-facts"></dl>
+
+          <button class="button button-primary" id="modal-save" type="button" aria-pressed="false">Add to Watchlist</button>
+        </div>
+      </div>
+    </article>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
